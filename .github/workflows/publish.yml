@@ -36,7 +36,7 @@ jobs:
       - uses: julia-actions/julia-buildpkg@v1
         with:
           precompile: true
-      - uses: cardinalby/export-env-action@v1
+      - uses: cardinalby/export-env-action@v2
         with:
           envFile: '_environment'    
           expand: 'true'
