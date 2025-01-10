@@ -24,9 +24,6 @@ jobs:
     permissions:
       actions: write  # needed to allow julia-actions/cache to delete old caches that it has created
       contents: write # needed for Quarto render
-      pages: write    # needed for deployment to GitHub Pages
-      id-token: write # needed for deployment to GitHub Pages
-      statuses: write # needed for deployment to GitHub Pages
     if: ${{ !github.event.pull_request.draft }}
     steps:
       - uses: actions/checkout@v4
