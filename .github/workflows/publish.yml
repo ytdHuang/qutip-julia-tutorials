@@ -24,6 +24,9 @@ jobs:
     permissions:
       actions: write  # needed to allow julia-actions/cache to delete old caches that it has created
       contents: write # needed for Quarto render
+      pages: write    # needed for deployment to GitHub Pages
+      id-token: write # needed for deployment to GitHub Pages
+      statuses: write # needed for deployment to GitHub Pages
     if: ${{ !github.event.pull_request.draft }}
     steps:
       - uses: actions/checkout@v4
@@ -44,10 +47,11 @@ jobs:
         uses: quarto-dev/quarto-actions/render@v2
         with:
           to: html
-      - uses: quarto-dev/quarto-actions/publish@v2
+      - name: Quarto Preview
         if: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: quarto-dev/quarto-actions/publish@v2
         with:
           render: 'false'  # rendered in the previous step already
           target: gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
