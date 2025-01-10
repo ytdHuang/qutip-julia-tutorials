@@ -19,7 +19,7 @@ on: # either one of the following four cases
       - ready_for_review
 
 jobs:
-  build-deploy:
+  build:
     runs-on: ubuntu-latest
     permissions:
       actions: write  # needed to allow julia-actions/cache to delete old caches that it has created
@@ -44,12 +44,10 @@ jobs:
         uses: quarto-dev/quarto-actions/render@v2
         with:
           to: html
-      - name: Quarto Publish
+      - uses: quarto-dev/quarto-actions/publish@v2
         if: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
-        uses: quarto-dev/quarto-actions/publish@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           render: 'false'  # rendered in the previous step already
           target: gh-pages
-        
