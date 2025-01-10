@@ -1,5 +1,5 @@
 ---
-title: "QuantumToolbox.jl and HierarchicalEOM.jl Tutorials"
+title: "Tutorials for QuantumToolbox in Julia"
 # subtitle: ""
 author: Alberto Mercurio
 
@@ -10,4 +10,16 @@ engine: julia
 using InteractiveUtils
 
 versioninfo()
+```
+
+```{julia}
+using QuantumToolbox
+
+QuantumToolbox.versioninfo()
+```
+
+```{julia}
+using HierarchicalEOM
+
+HierarchicalEOM.versioninfo()
 ```
