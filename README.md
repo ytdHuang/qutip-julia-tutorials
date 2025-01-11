@@ -25,7 +25,7 @@ make render
 or
 ```shell
 source _environment
-julia --project=@. -e 'import Pkg; Pkg.instantiate(); Pkg.resolve(); Pkg.precompile()'
+julia --project=@. -e 'import Pkg; Pkg.resolve(); Pkg.instantiate(); Pkg.precompile()'
 julia --project=@. -e 'using QuantumToolbox, HierarchicalEOM;'
 quarto render
 ```
