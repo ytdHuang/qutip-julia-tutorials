@@ -7,12 +7,6 @@ date-format: iso
 engine: julia
 ---
 
-## Package Imports
-```{julia}
-using HierarchicalEOM
-using CairoMakie
-```
-
 ## Introduction
 
 Cavity quantum electrodynamics (cavity QED) is an important topic for studying the interaction between atoms (or other particles) and light confined in a reflective cavity, under conditions where the quantum nature of photons is significant.
@@ -46,6 +40,11 @@ $$
 Here, $H_{\textrm{b}}$ describes a bosonic reservoir where $b_{k}$ $(b_{k}^{\dagger})$ is the bosonic annihilation (creation) operator associated to the $k$th mode (with frequency $\omega_{k}$). Also, $H_{\textrm{sb}}$ illustrates the interaction between the cavity and the bosonic reservoir.
 
 Now, we need to build the system Hamiltonian and initial state with the package [`QuantumToolbox.jl`](https://github.com/qutip/QuantumToolbox.jl) to construct the operators.
+
+```{julia}
+using HierarchicalEOM
+using CairoMakie
+```
 
 ```{julia}
 N = 3 ## system cavity Hilbert space cutoff
