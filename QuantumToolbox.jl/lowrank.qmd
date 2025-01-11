@@ -44,7 +44,7 @@ N = N_cut^N_modes
 M = latt.N + 1
 ```
 
-Define lr states. Take as initial state all apinsup. All other N states are taken as those with miniman Hamming distance to the initial state.
+Define `lr` states. Take as initial state all spins up. All other `N` states are taken as those with minimum Hamming distance to the initial state.
 
 ```{julia}
 ϕ = Vector{QuantumObject{Vector{ComplexF64},KetQuantumObject,M-1}}(undef, M)
