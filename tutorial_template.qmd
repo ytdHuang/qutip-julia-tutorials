@@ -1,0 +1,37 @@
+---
+title: "Tutorial Template"
+author: Author(s) Name
+date: last-modified
+date-format: iso
+
+engine: julia
+---
+
+Inspirations taken from somewhere by someone. (or some preface)
+
+## Introduction
+
+The Hamiltonian $H$ is given by
+
+$$
+H = \hbar \omega \hat{a}^\dagger \hat{a}.
+$$
+
+We start by importing the packages:
+
+```{julia}
+using QuantumToolbox
+```
+
+Here we use units where $\hbar = 1$, and `ω = 1.0`:
+
+```{julia}
+ω = 1.0
+a = destroy(5)
+H = ω * a' * a
+```
+
+## Version Information
+```{julia}
+QuantumToolbox.versioninfo()
+```
