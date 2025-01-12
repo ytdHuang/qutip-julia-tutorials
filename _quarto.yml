@@ -1,7 +1,7 @@
 project:
   type: website
   output-dir: _output
-  title: "Tutorials for Quantum Toolbox in Julia"
+  title: Tutorials for Quantum Toolbox in Julia
   render:
     - "*.md"
     - "*.qmd"
@@ -10,8 +10,27 @@ project:
     - "!tutorial_template.qmd" # ignore
 
 website:
-  title: "Tutorials for Quantum Toolbox in Julia"
+  title: Tutorials for Quantum Toolbox in Julia
+  site-url: https://qutip.org/qutip-julia-tutorials/
+  favicon: assets/favicon.ico
+
+  #announcement: 
+  #  icon: info-circle
+  #  dismissable: true
+  #  content: "**Alert** - this is some information that you should pay attention to"
+  #  type: primary # primary, secondary, success, danger, warning, info, light, dark
+  #  position: below-navbar
+
+  # GitHub links in the sidebar of each page
+  repo-url: https://github.com/qutip/qutip-julia-tutorials
+  repo-actions: [edit, source, issue]
+
+  page-footer: Copyright © 2025 <a href="https://qutip.org/" target="_blank"><strong>QuTiP.org</strong></a>.
+
   navbar:
+    logo: assets/logo.png
+    logo-alt: "QuantumToolbox logo."
+    title: Tutorials for Quantum Toolbox in Julia
     search: true
     left:
       - href: index.md
