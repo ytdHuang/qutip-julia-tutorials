@@ -21,10 +21,13 @@ deps/src/
 *.ipynb
 
 pyenv/
+
+# these are all temporary files that will be generated during Quarto render
 /.quarto/
 /_freeze/
 /_site/
 /_output/
 *.html
+*.svg
 *.json
 /site_libs/
