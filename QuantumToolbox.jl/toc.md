@@ -11,7 +11,6 @@ listing:
       date: "Last Update"
     contents:
       - "time_evolution/*.qmd"
-      - "rabi/*.qmd"
 ---
 
 The following tutorials demonstrate and introduce specific functionality of `QuantumToolbox.jl`.
