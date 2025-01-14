@@ -45,7 +45,6 @@ $$
 ```{julia}
 using QuantumToolbox
 using CairoMakie     # For high-quality plotting
-using LaTeXStrings   # For manuscript-like typesetting in the plots
 ```
 
 ```{julia}
