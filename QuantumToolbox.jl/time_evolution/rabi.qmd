@@ -169,10 +169,12 @@ $$
 
 where the $(\Gamma_i, \hat{S}_i)$ pairs are
 
-1. $\kappa \cdot n(\omega_c, T), \hat{a}^\dagger$
-2. $\kappa \cdot (1 + n(\omega_c, T)), \hat{a}$
-3. $\gamma \cdot n(\omega_a, T), \hat{\sigma}^\dagger$
-4. $\gamma \cdot (1 + n(\omega_a, T)), \hat{\sigma}$
+|$i$| $\Gamma_i$ | $\hat{S}_i$ |
+|---| :--------: | :---------: |
+|1|$\kappa \cdot n(\omega_c, T)$|$\hat{a}^\dagger$|
+|2|$\kappa \cdot [1 + n(\omega_c, T)]$|$\hat{a}$|
+|3|$\gamma \cdot n(\omega_a, T)$|$\hat{\sigma}^\dagger$|
+|4|$\gamma \cdot [1 + n(\omega_a, T)]$|$\hat{\sigma}$|
 
 with $n(\omega, T)$ being the Bose-Einstein distribution for the EM environment and $\mathcal{D}[\hat{\mathcal{O}}]\left(\cdot\right) = \hat{\mathcal{O}} \left(\cdot\right) \hat{\mathcal{O}}^\dagger - \frac{1}{2} \{ \hat{\mathcal{O}}^\dagger \hat{\mathcal{O}}, \cdot \}$ being the Lindblad dissipator.
 
@@ -245,7 +247,7 @@ axe_me = Axis(
 ylims!(axe_me, 0, 1)
 lines!(axe_me, tlist, e_me,  label = "resonant")
 lines!(axe_me, tlist, e_me_, label = "off resonant")
-axislegend(axe_me; position = :rb, labelsize = 12)
+axislegend(axe_me; position = :rt, labelsize = 12)
 display(fige_me);
 ```
 
