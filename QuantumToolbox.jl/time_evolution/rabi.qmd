@@ -10,13 +10,6 @@ Inspirations taken from this [QuTiP tutorial](https://nbviewer.org/urls/qutip.or
 
 In this notebook, the usage of `QuantumToolbox.sesolve()` and `QuantumToolbox.mesolve()` will be demonstrated with Jaynes-Cummings model to observe Rabi Oscillation in the isolated case and the dissipative case. In dissipative case, a bosonic environment would interact with JC model's cavity and two-level atom.
 
-## `using` Packages 
-
-```{julia}
-using QuantumToolbox
-using CairoMakie     # For high-quality plotting
-```
-
 ## Introduction to Jaynes-Cumming model
 Jaynes-Cummings (JC) model, a simplest quantum mechanical model for light-matter interaction, describes an atom interacting with an external electromagnetic field. To simplify the interaction at the time of the model proposal, JC model considered a two-level atom interacting with a single bosonic mode (or you can consider it a single-mode cavity), i.e., a two-dimensional Hilbert space interacting with a Fock space. <!-- (with finite truncation $N$) -->
 
@@ -49,7 +42,11 @@ $$
 
 ### Usage of `QuantumToolbox` for JC model in general
 
-Since the packages are already imported with `using` at the beginning, we hereby start by defining some parameters and system Hamiltonian.
+```{julia}
+using QuantumToolbox
+using CairoMakie     # For high-quality plotting
+using LaTeXStrings   # For manuscript-like typesetting in the plots
+```
 
 ```{julia}
 N = 15 # Fock space truncated dimension
@@ -63,7 +60,7 @@ a  = qeye(2)  ⊗ destroy(N)
 σ  = sigmam() ⊗ qeye(N)
 
 Ha = ωa / 2 * σz
-Hc = ωc * a' * a # the symbol `'` after a `QuantumObject` act as †
+Hc = ωc * a' * a # the symbol `'` after a `QuantumObject` act as adjoint
 Hc_ = ωc_ * a' * a
 Hint = Ω * (σ * a' + σ' * a)
 
@@ -99,15 +96,15 @@ println("\n####################\n")
 print(sol_)
 ```
 
+Create the first figure for expectation value of photon number
 ```{julia}
-# Create the first figure for expectation value of photon number
 n  = real.(sol.expect[1, :])
 n_ = real.(sol_.expect[1, :])
 fign = Figure(size = (600, 350))
 axn = Axis(
     fign[1, 1],
-    title = "⟨n⟩",
-    xlabel = "time [1/ωa]", 
+    title = L"$\langle n\rangle$",
+    xlabel = L"time $[1/\omega_a]$", 
     ylabel = "expectation value", 
     xlabelsize = 15, 
     ylabelsize = 15,
@@ -120,15 +117,15 @@ axislegend(axn; position = :rt, labelsize = 12)
 display(fign);
 ```
 
+Create the second figure for excited state population
 ```{julia}
-# Create the second figure for excited state population
 e  = real.(sol.expect[2, :])
 e_ = real.(sol_.expect[2, :]) 
 fige = Figure(size = (600, 350))
 axe = Axis(
     fige[1, 1], 
-    title = "⟨e⟩",
-    xlabel = "time [1/ωa]", 
+    title = L"$\langle e \rangle$",
+    xlabel = L"time $[1/\omega_a]$", 
     ylabel = "probability", 
     xlabelsize = 15, 
     ylabelsize = 15,
@@ -183,24 +180,14 @@ with $n(\omega, T)$ being the Bose-Einstein distribution for the EM environment 
 
 We can now define variables in `julia` and solve the evolution of dissipative JC model 
 ```{julia}
-# Bose-Einstein distribution
-function nb(_ω, _KT)
-    if _KT < 0
-        println("Temperature should not go below absolute zero, returned 0")
-        _n = 0.0
-    else
-        _n = (_KT == 0) ? 0 : (1 / (exp(_ω / _KT) - 1))
-    end
-    return _n
-end
-
 # Collapse operators for interaction with the environment with variable 
 # dissipation rates, cavity frequency, and thermal energy of the environment
+# `n_thermal()` gives Bose-Einstein distribution
 cop_ls(_γ, _κ, _ωc, _KT) = (
-    √(_κ * nb(_ωc, _KT)) * a', 
-    √(_κ * (1 + nb(_ωc, _KT))) * a, 
-    √(_γ * nb(ωa, _KT)) * σ', 
-    √(_γ * (1 + nb(ωa, _KT))) * σ, 
+    √(_κ * n_thermal(_ωc, _KT)) * a', 
+    √(_κ * (1 + n_thermal(_ωc, _KT))) * a, 
+    √(_γ * n_thermal(ωa, _KT)) * σ', 
+    √(_γ * (1 + n_thermal(ωa, _KT))) * σ, 
 )
 ```
 
@@ -219,15 +206,15 @@ println("\n####################\n")
 print(sol_me_)
 ```
 
+Create the first figure for the expectation value of photon number
 ```{julia}
-# Create the first figure for the expectation value of photon number
 n_me  = real.(sol_me.expect[1, :])
 n_me_ = real.(sol_me_.expect[1, :])
 fign_me = Figure(size = (600, 350))
 axn_me = Axis(
     fign_me[1, 1],
-    title = "⟨n⟩",
-    xlabel = "time [1/ωa]", 
+    title = L"$\langle n\rangle$",
+    xlabel = L"time $[1/\omega_a]$", 
     ylabel = "expectation value", 
     xlabelsize = 15, 
     ylabelsize = 15,
@@ -240,16 +227,15 @@ axislegend(axn_me; position = :rt, labelsize = 12)
 display(fign_me);
 ```
 
-
+Create the second figure for atom excited state population
 ```{julia}
-# Create the second figure for atom excited state population
 e_me  = real.(sol_me.expect[2, :])
 e_me_ = real.(sol_me_.expect[2, :]) 
 fige_me = Figure(size = (600, 350))
 axe_me = Axis(
     fige_me[1, 1], 
-    title = "⟨e⟩",
-    xlabel = "time [1/ωa]", 
+    title = L"$\langle e \rangle$",
+    xlabel = L"time $[1/\omega_a]$", 
     ylabel = "probability", 
     xlabelsize = 15, 
     ylabelsize = 15,
@@ -263,9 +249,11 @@ axislegend(axe_me; position = :rb, labelsize = 12)
 display(fige_me);
 ```
 
+<!-- 
 ### Note for RWA
 
-Without applying RWA, things are more interesting in the \emph{Ultrastrong Coupling} (USC) regime, where $\Omega \sim \omega_c$. In that regime, the \emph{localized} master equation (the one we used for this tutorial) fails. As that phenomenon is worth itself as an independent tutorial, we will pass that on to [this tutorial for `liouvillian_generalized()`](). 
+Without applying RWA, things are more interesting in the \emph{Ultrastrong Coupling} (USC) regime, where $\Omega \sim \omega_c$. In that regime, the \emph{localized} master equation (the one we used for this tutorial) fails. As that phenomenon is worth itself as an independent tutorial, we will pass that on to [this tutorial for `liouvillian_generalized()`]().
+-->
 
 
 
