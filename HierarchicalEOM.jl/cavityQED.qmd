@@ -41,12 +41,12 @@ Here, $H_{\textrm{b}}$ describes a bosonic reservoir where $b_{k}$ $(b_{k}^{\dag
 Now, we need to build the system Hamiltonian and initial state with the package [`QuantumToolbox.jl`](https://github.com/qutip/QuantumToolbox.jl) to construct the operators.
 
 ```{julia}
-using HierarchicalEOM
-using CairoMakie
+using HierarchicalEOM  # this automatically loads `QuantumToolbox`
+using CairoMakie       # for plotting results
 ```
 
 ```{julia}
-N = 3 ## system cavity Hilbert space cutoff
+N = 3 # system cavity Hilbert space cutoff
 ωA = 2
 ωc = 2
 g = 0.1
