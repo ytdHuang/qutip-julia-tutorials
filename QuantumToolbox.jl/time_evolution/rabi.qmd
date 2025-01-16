@@ -199,7 +199,7 @@ axislegend(ax_me; position = :rt, labelsize = 15)
 display(fig_me);
 ```
 
-From the above example, one can see that the dissipative system is losing energy over time and asymptoting to zero. We can further consdider the near-vacuum environment with finite temperature.
+From the above example, one can see that the dissipative system is losing energy over time and asymptoting to zero. We can further consider the near-vacuum environment with finite temperature.
 
 ```{julia}
 sol_me_  = mesolve(Htot,  ψ0, tlist, cop_ls(γ, κ, 0.3 * ωa), e_ops = eop_ls) # replace KT with finite temperature
