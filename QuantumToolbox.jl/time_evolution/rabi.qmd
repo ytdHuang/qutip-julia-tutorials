@@ -1,7 +1,7 @@
 ---
 title: "Vacuum Rabi oscillation"
 author: Li-Xun Cai
-date: 2025-01-14 # last update (keep this comment as a reminder)
+date: 2025-01-17 # last update (keep this comment as a reminder)
 
 engine: julia
 ---
@@ -28,13 +28,13 @@ where
 with
 
 - $\omega_\text{a}$: Frequency of the two-level atom
-- $\omega_\text{c}$: Frequency of the cavity's EM mode (This is not specified whether to be in resonance with the atom or not.)
+- $\omega_\text{c}$: Frequency of the cavity's electromagnetic mode
 - $\Omega$         : Coupling strength between the atom and the cavity
 - $\hat{\sigma}_z$ : Pauli-$Z$ matrix. Equivalent to $|e\rangle\langle e| - |g\rangle\langle g|$
 - $\hat{a}$        : Annihilation operator of single-mode cavity <!-- $N$-truncated -->
 - $\hat{\sigma}$   : Lowering operator of atom. Equivalent to $|g\rangle\langle e|$
 
-By applying [rotating wave approximation (RWA)](https://en.wikipedia.org/wiki/Rotating-wave_approximation), the counter rotating terms ($\hat{\sigma} \cdot \hat{a}$ and its Hermitian conjugate), which rotate considerably faster than the others in the interaction picture, are ignored, yielding
+By applying [rotating wave approximation (RWA)](https://en.wikipedia.org/wiki/Rotating-wave_approximation), the counter rotating terms ($\hat{\sigma} \cdot \hat{a}$ and its Hermitian conjugate) are ignored, yielding
 
 $$
 \hat{H}_\text{tot} \approx \hat{H}_{\text{a}} + \hat{H}_{\text{c}} + \Omega \left( \hat{\sigma} \cdot \hat{a}^\dagger + \hat{\sigma}^\dagger \cdot \hat{a} \right)
@@ -44,9 +44,8 @@ $$
 
 ##### import:
 ```{julia}
-using QuantumToolbox
-import QuantumToolbox: ⊗, sigmaz, sigmam, destroy, qeye, basis, fock, n_thermal, mesolve, sesolve, versioninfo
-using CairoMakie
+import QuantumToolbox: sigmaz, sigmam, destroy, qeye, basis, fock, 
+    ⊗, n_thermal, sesolve, mesolve
 import CairoMakie: Figure, Axis, lines!, axislegend, xlims!, display
 ```
 
@@ -72,7 +71,7 @@ print(Htot)
 ## Isolated case
 For the case of JC model being isolated, i.e., no interaction with the surrounding environment, the time-evolution is governed solely by Schrödinger equation $\hat{H}|\psi(t)\rangle = \partial_t|\psi(t)\rangle$. Using `QuantumToolbox.sesolve` is ideal for pure state evolution.
 
-For the context of [Rabi problem](https://en.wikipedia.org/wiki/Rabi_problem), we set the initial state $\psi_0 = |e\rangle \otimes |0\rangle$ where $|e\rangle$ is the excited state of atom and $|0\rangle$ is the vacuum state of cavity.
+For the context of [Rabi problem](https://en.wikipedia.org/wiki/Rabi_problem), we set the initial state $\psi_0 = |e\rangle \otimes |0\rangle$, where $|e\rangle$ is the excited state of atom and $|0\rangle$ is the vacuum state of cavity.
 
 ```{julia}
 e_ket = basis(2,0) 
@@ -115,9 +114,9 @@ In the above plot, the behaviour of the energy exchange between the atom and the
 
 ## Dissipative case
 
-In contrast to isolated evolution, a factual system interacts with its surrounding environments, resulting in energy/particle exchange. We are currently interested in observing JC model's Rabi oscillation with the addition of interaction with the external EM field. 
+In contrast to isolated evolution, a factual system interacts with its surrounding environments, resulting in energy/particle exchange. We are currently interested in observing JC model's Rabi oscillation with the addition of interaction with the external thermal field. 
 
-We start by reviewing the interaction Hamiltonians between the EM environment and atom/cavity
+We start by reviewing the interaction Hamiltonians between the thermal field and atom/cavity
 
 - Atom: $$
         \hat{H}_{\text{a}}^\text{int} = \sum_l \alpha_l \left( \hat{b}_l + \hat{b}_l^\dagger \right) \left( \hat{\sigma} + \hat{\sigma}^\dagger \right)
@@ -132,7 +131,7 @@ where for the $l$-th mode
 - $\beta_l$ is the coupling strength with the cavity
 - $\hat{b}_l$ is the annihilation operator
 
-Following the RWA approach previously mentioned and the standard procedure of [Born-Markovian approximation](https://en.wikiversity.org/wiki/Open_Quantum_Systems/The_Quantum_Optical_Master_Equation), we obtain $\kappa$, the cavity dissipation rate, and $\gamma$, the atom dissipation rate. Therefore, the time evolution of the dissipative JC model can be described by the [Lindblad master equation](https://en.wikipedia.org/wiki/Lindbladian)
+Follow the aforementioned RWA and the standard procedure of [Born-Markovian approximation](https://en.wikiversity.org/wiki/Open_Quantum_Systems/The_Quantum_Optical_Master_Equation), we obtain $\kappa$, the cavity dissipation rate, and $\gamma$, the atom dissipation rate. Therefore, the time evolution of the dissipative JC model can be described by the [Lindblad master equation](https://en.wikipedia.org/wiki/Lindbladian)
 
 $$
 \dot{\hat{\rho}} = -\frac{i}{\hbar} [\hat{H}, \hat{\rho}] + \sum_{i = 1}^4 \mathcal{D}[\sqrt{\Gamma_i} \hat{S}_i]\left(\hat{\rho}\right)
@@ -147,7 +146,7 @@ where $\sqrt{\Gamma_i} \hat{S}_i$ are the collapse operators, given by
 |3|$\gamma \cdot n(\omega_a, T)$|$\hat{\sigma}^\dagger$|
 |4|$\gamma \cdot [1 + n(\omega_a, T)]$|$\hat{\sigma}$|
 
-with $n(\omega, T)$ being the Bose-Einstein distribution for the EM environment and 
+with $n(\omega, T)$ being the Bose-Einstein distribution of the thermal field and 
 $$
 \mathcal{D}[\hat{\mathcal{O}}]\left(\cdot\right) = \hat{\mathcal{O}} \left(\cdot\right) \hat{\mathcal{O}}^\dagger - \frac{1}{2} \{ \hat{\mathcal{O}}^\dagger \hat{\mathcal{O}}, \cdot \}
 $$ 
@@ -171,7 +170,7 @@ cop_ls(_γ, _κ, _KT) = (
 # use the same ψ0, tlist, and eop_ls from isolated case
 γ = 4e-3
 κ = 7e-3
-KT = 0 # for theoretical vacuum EM field
+KT = 0 # thermal field at zero temperature
 
 # `mesolve()` only has one additional keyword argument `c_ops` from `sesolve()`
 sol_me  = mesolve(Htot,  ψ0, tlist, cop_ls(γ, κ, KT), e_ops = eop_ls)
@@ -199,7 +198,7 @@ axislegend(ax_me; position = :rt, labelsize = 15)
 display(fig_me);
 ```
 
-From the above example, one can see that the dissipative system is losing energy over time and asymptoting to zero. We can further consider the near-vacuum environment with finite temperature.
+From the above example, one can see that the dissipative system is losing energy over time and asymptoting to zero. We can further consider the thermal field with finite temperature.
 
 ```{julia}
 sol_me_  = mesolve(Htot,  ψ0, tlist, cop_ls(γ, κ, 0.3 * ωa), e_ops = eop_ls) # replace KT with finite temperature
@@ -221,10 +220,11 @@ lines!(ax_me_, tlist, e_me_, label = L"$P_e$")
 axislegend(ax_me_; position = :rt, labelsize = 15)
 display(fig_me_);
 ```
-Despite the asymptotic behaviour persisting, one can see that they no longer approach zero and instead find a steady condition above zero. That is, the system eventually becomes thermalized by the environment.
+Despite the asymptotic behaviour persisting, one can see that they no longer approach zero and instead find a steady condition above zero. That is, the system is thermalized by the environment.
 
 ## Version Information
 ```{julia}
+import QuantumToolbox
 QuantumToolbox.versioninfo()
 ```
 
