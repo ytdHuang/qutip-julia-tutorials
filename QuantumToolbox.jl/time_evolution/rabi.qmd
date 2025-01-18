@@ -46,7 +46,7 @@ $$
 ```{julia}
 import QuantumToolbox: sigmaz, sigmam, destroy, qeye, basis, fock, 
     ⊗, n_thermal, sesolve, mesolve
-import CairoMakie: Figure, Axis, lines!, axislegend, xlims!, display
+import CairoMakie: Figure, Axis, lines!, axislegend, xlims!, display, @L_str
 ```
 
 ```{julia}
