@@ -6,12 +6,12 @@ date: 2025-01-17 # last update (keep this comment as a reminder)
 engine: julia
 ---
 
-Inspirations taken from this [QuTiP tutorial](https://nbviewer.org/urls/qutip.org/qutip-tutorials/tutorials-v5/time-evolution/004_rabi-oscillations.ipynb) by J.R. Johansson, P.D. Nation, and C. Staufenbiel
+Inspirations taken from [this QuTiP tutorial](https://nbviewer.org/urls/qutip.org/qutip-tutorials/tutorials-v5/time-evolution/004_rabi-oscillations.ipynb) by J.R. Johansson, P.D. Nation, and C. Staufenbiel
 
-In this notebook, the usage of `QuantumToolbox.sesolve` and `QuantumToolbox.mesolve` will be demonstrated with Jaynes-Cummings model to observe Rabi oscillations in the isolated case and the dissipative case. In dissipative case, a bosonic environment would interact with the cavity and two-level atom in JC model.
+In this notebook, the usage of `QuantumToolbox.sesolve` and `QuantumToolbox.mesolve` will be demonstrated with Jaynes-Cummings model (JC model) to observe Rabi oscillations in the isolated case and the dissipative case. In the dissipative case, a bosonic interacts with the cavity and the two-level atom in the JC model.
 
 ## Introduction to Jaynes-Cumming model
-Jaynes-Cummings (JC) model, a simplest quantum mechanical model for light-matter interaction, describes an atom interacting with an external electromagnetic field. To simplify the interaction, JC model considered a two-level atom interacting with a single bosonic mode (or you can consider it a single-mode cavity).
+The JC model is a simplest quantum mechanical model for light-matter interaction, describing an atom interacting with an external electromagnetic field. To simplify the interaction, the JC model consideres a two-level atom interacting with a single bosonic mode, which can also be thought of as a single-mode cavity.
 
 The Hamiltonian of JC model is given by
 
@@ -34,7 +34,7 @@ with
 - $\hat{a}$        : Annihilation operator of single-mode cavity <!-- $N$-truncated -->
 - $\hat{\sigma}$   : Lowering operator of atom. Equivalent to $|g\rangle\langle e|$
 
-By applying [rotating wave approximation (RWA)](https://en.wikipedia.org/wiki/Rotating-wave_approximation), the counter rotating terms ($\hat{\sigma} \cdot \hat{a}$ and its Hermitian conjugate) are ignored, yielding
+By applying the [rotating wave approximation (RWA)](https://en.wikipedia.org/wiki/Rotating-wave_approximation), the counter rotating terms ($\hat{\sigma} \cdot \hat{a}$ and its Hermitian conjugate) are ignored, yielding
 
 $$
 \hat{H}_\text{tot} \approx \hat{H}_{\text{a}} + \hat{H}_{\text{c}} + \Omega \left( \hat{\sigma} \cdot \hat{a}^\dagger + \hat{\sigma}^\dagger \cdot \hat{a} \right)
@@ -69,9 +69,9 @@ print(Htot)
 ```
 
 ## Isolated case
-For the case of JC model being isolated, i.e., no interaction with the surrounding environment, the time-evolution is governed solely by Schrödinger equation $\hat{H}|\psi(t)\rangle = \partial_t|\psi(t)\rangle$. Using `QuantumToolbox.sesolve` is ideal for pure state evolution.
+For the case of the JC model being isolated, i.e., with no interaction with the surrounding environment, the time evolution is governed solely by the Schrödinger equation, $\hat{H}|\psi(t)\rangle = \partial_t|\psi(t)\rangle$. The `QuantumToolbox.sesolve` function is ideal for simulating such pure state evolution.
 
-For the context of [Rabi problem](https://en.wikipedia.org/wiki/Rabi_problem), we set the initial state $\psi_0 = |e\rangle \otimes |0\rangle$, where $|e\rangle$ is the excited state of atom and $|0\rangle$ is the vacuum state of cavity.
+For the context of [Rabi problem](https://en.wikipedia.org/wiki/Rabi_problem), we set the initial state as $\psi_0 = |e\rangle \otimes |0\rangle$, where $|e\rangle$ is the excited state of the atom and $|0\rangle$ is the vacuum state of the cavity.
 
 ```{julia}
 e_ket = basis(2,0) 
@@ -114,7 +114,7 @@ In the above plot, the behaviour of the energy exchange between the atom and the
 
 ## Dissipative case
 
-In contrast to isolated evolution, a factual system interacts with its surrounding environments, resulting in energy/particle exchange. We are currently interested in observing JC model's Rabi oscillation with the addition of interaction with the external thermal field. 
+In contrast to isolated evolution, a realistic system interacts with its surrounding environment, leading to energy or particle exchange. Here, we focus on observing the Rabi oscillations of the JC model with the inclusion of interactions with an external environment at some finite temperature. 
 
 We start by reviewing the interaction Hamiltonians between the thermal field and atom/cavity
 
@@ -131,7 +131,7 @@ where for the $l$-th mode
 - $\beta_l$ is the coupling strength with the cavity
 - $\hat{b}_l$ is the annihilation operator
 
-Follow the aforementioned RWA and the standard procedure of [Born-Markovian approximation](https://en.wikiversity.org/wiki/Open_Quantum_Systems/The_Quantum_Optical_Master_Equation), we obtain $\kappa$, the cavity dissipation rate, and $\gamma$, the atom dissipation rate. Therefore, the time evolution of the dissipative JC model can be described by the [Lindblad master equation](https://en.wikipedia.org/wiki/Lindbladian)
+By applying the aforementioned RWA and following the standard procedure of the [Born-Markovian approximation](https://en.wikiversity.org/wiki/Open_Quantum_Systems/The_Quantum_Optical_Master_Equation), we obtain $\kappa$, the cavity dissipation rate, and $\gamma$, the atom dissipation rate. Consequently, the time evolution of the dissipative JC model is described by the [Lindblad master equation](https://en.wikipedia.org/wiki/Lindbladian).
 
 $$
 \dot{\hat{\rho}} = -\frac{i}{\hbar} [\hat{H}, \hat{\rho}] + \sum_{i = 1}^4 \mathcal{D}[\sqrt{\Gamma_i} \hat{S}_i]\left(\hat{\rho}\right)
@@ -220,7 +220,7 @@ lines!(ax_me_, tlist, e_me_, label = L"$P_e$")
 axislegend(ax_me_; position = :rt, labelsize = 15)
 display(fig_me_);
 ```
-Despite the asymptotic behaviour persisting, one can see that they no longer approach zero and instead find a steady condition above zero. That is, the system is thermalized by the environment.
+Despite the persistence of the asymptotic behaviour, the system no longer approaches zero but instead reaches a steady-state above zero. This indicates that the system has been thermalized by the environment.
 
 ## Version Information
 ```{julia}
