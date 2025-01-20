@@ -11,7 +11,7 @@ Inspirations taken from [this QuTiP tutorial](https://nbviewer.org/urls/qutip.or
 In this notebook, the usage of `QuantumToolbox.sesolve` and `QuantumToolbox.mesolve` will be demonstrated with Jaynes-Cummings model (JC model) to observe Rabi oscillations in the isolated case and the dissipative case. In the dissipative case, a bosonic interacts with the cavity and the two-level atom in the JC model.
 
 ## Introduction to Jaynes-Cumming model
-The JC model is a simplest quantum mechanical model for light-matter interaction, describing an atom interacting with an external electromagnetic field. To simplify the interaction, the JC model consideres a two-level atom interacting with a single bosonic mode, which can also be thought of as a single-mode cavity.
+The JC model is a simplest quantum mechanical model for light-matter interaction, describing an atom interacting with an external electromagnetic field. To simplify the interaction, the JC model considers a two-level atom interacting with a single bosonic mode, which can also be thought of as a single-mode cavity.
 
 The Hamiltonian of JC model is given by
 
